@@ -12,6 +12,13 @@ from psycopg.rows import dict_row
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 DATABASE_URL = os.getenv("DATABASE_URL")
 ADMIN_IDS = {int(x.strip()) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip().isdigit()}
+async def whoami(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
+    uid = update.effective_user.id
+    await update.message.reply_text(
+        f"🆔 Tu ID: {uid}\n"
+        f"👑 Admin: {'SI' if is_admin(uid) else 'NO'}\n"
+        f"ADMIN_IDS cargados: {sorted(list(ADMIN_IDS))}"
+    )
 
 if not BOT_TOKEN or not DATABASE_URL:
     raise RuntimeError("Faltan variables en Railway")
@@ -182,6 +189,7 @@ def main():
     app.add_handler(CommandHandler("newcampaign", newcampaign))
     app.add_handler(CommandHandler("addtask", addtask))
     app.add_handler(CommandHandler("approve", approve))
+app.add_handler(CommandHandler("whoami", whoami))
     app.run_polling()
 
 if __name__ == "__main__":
