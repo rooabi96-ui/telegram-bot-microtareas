@@ -88,7 +88,7 @@ async def start(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         "Usá /task para empezar\n"
         "Usá /balance para ver tu saldo"
     )
-
+Build 18-12
 async def balance(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     uid = update.effective_user.id
     with db() as c, c.cursor() as cur:
